@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnetapp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dotnetapp
+  template:
+    metadata:
+      labels:
+        app: dotnetapp
+    spec:
+      containers:
+      - name: dotnetapp-container
+        image: gcr.io/gcp-terraform-dotnet/dotnetapp-image:latest # Replace with your image path
+        ports:
+        - containerPort: 8080
