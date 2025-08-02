@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  image: gcpsantanubhunia/your_image_name:latest
+  image: gcpsantanubhunia/dotnetapp:v4
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: gcpsantanubhunia/dotnetapp:v3
+        tags: $env.image
 
   # Optional: Add a deployment job if you want to deploy to a specific environment
   # deploy:
