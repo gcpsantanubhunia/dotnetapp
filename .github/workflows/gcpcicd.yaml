@@ -1,0 +1,42 @@
+name: GCP .NET Core CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4 # Checks out your repository code
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x' # Specify your desired .NET SDK version
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Run Run
+      run: dotnet run
+      
+  # Optional: Add a deployment job if you want to deploy to a specific environment
+  # deploy:
+  #   needs: build-and-test # Ensures deployment only runs after successful build and tests
+  #   runs-on: ubuntu-latest
+  #   environment: Production # Example environment
+  #   steps:
+  #     - name: Deploy to Azure Web App
+  #       uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: 'your-app-name'
+  #         slot-name: 'production'
+  #         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} # Store sensitive data in GitHub Secrets
+  #         package: './path/to/your/publish/output' # Path to your published application
