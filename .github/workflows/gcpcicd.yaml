@@ -9,6 +9,7 @@ on:
 env:
   docker_username: ${{ vars.DOCKER_USERNAME }}
   image: ${{ secrets.DOCKER_USERNAME }}/dotnetapp:v4
+  MY_CUSTOM_VARIABLE: "Hello from workflow!"
 
 jobs:
   build:
@@ -22,6 +23,7 @@ jobs:
         echo "$docker_username"
         echo "$image"
         echo "${{ env.DOCKER_USERNAME }}"
+        echo "The value is: ${{ env.MY_CUSTOM_VARIABLE }}"
     
     # - name: Log in to Docker Hub
     #   uses: docker/login-action@v3
