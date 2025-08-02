@@ -21,7 +21,7 @@ jobs:
       run: |
         echo "$docker_username"
         echo "$image"
-        echo "${{ vars.DOCKER_USERNAME }}"
+        echo "${{ env.DOCKER_USERNAME }}"
     
     # - name: Log in to Docker Hub
     #   uses: docker/login-action@v3
