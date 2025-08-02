@@ -8,7 +8,7 @@ on:
 
 env:
   docker_username: ${{ secrets.DOCKER_USERNAME }}
-  image: ${{ env.docker_username }}/dotnetapp:v4
+  image: ${{ secrets.DOCKER_USERNAME }}/dotnetapp:v4
 
 jobs:
   build:
@@ -16,19 +16,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4 # Checks out your repository code
-    
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.env }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: ${{ env.image }}
+    - name: Use variable
+      run: |
+        echo "$docker_username"
+        echo "$image"
+    
+    # - name: Log in to Docker Hub
+    #   uses: docker/login-action@v3
+    #   with:
+    #     username: ${{ secrets.env }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # - name: Build and push Docker image
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: .
+    #     push: true
+    #     tags: ${{ env.image }}
 
   # Optional: Add a deployment job if you want to deploy to a specific environment
   # deploy:
