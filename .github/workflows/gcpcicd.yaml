@@ -21,6 +21,7 @@ jobs:
     - name: Use variable
       run: |
         echo "$docker_username"
+        
         echo "$image"
         echo "${{ env.DOCKER_USERNAME }}"
         echo "The value is: ${{ env.MY_CUSTOM_VARIABLE }}"
