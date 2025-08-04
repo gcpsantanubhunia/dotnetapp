@@ -33,12 +33,12 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCE_SA_KEY }}
 
-    - name: Get GKE Credentials
-      uses: google-github-actions/get-gke-credentials@v2
-      with:
-        cluster_name: dotnetapp-cluster
-        location: us-central1-c
-        project_id: ${{ secrets.GCE_PROJECT }}
+    # - name: Get GKE Credentials
+    #   uses: google-github-actions/get-gke-credentials@v2
+    #   with:
+    #     cluster_name: dotnetapp-cluster
+    #     location: us-central1-c
+    #     project_id: ${{ secrets.GCE_PROJECT }}
 
     # # Configure Docker to use the gcloud command-line tool as a credential
     # # helper for authentication
