@@ -1,0 +1,19 @@
+name: GKE .NET Core CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  image: gcpsantanubhunia/dotnetapp:v4
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4 # Checks out your repository code
+
+    - name: Variable 
+      run: |
+        echo "Variable Data $image"
