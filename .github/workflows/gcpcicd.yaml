@@ -4,7 +4,7 @@ on:
   push:
     branches: [ abc ]
   pull_request:
-    branches: [ main ]
+    branches: [ abc ]
 
 env:
   image: gcpsantanubhunia/dotnetapp:v4

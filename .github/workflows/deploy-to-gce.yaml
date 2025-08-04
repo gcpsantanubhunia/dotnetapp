@@ -34,7 +34,7 @@
             with:
               service_account_key: ${{ secrets.GCE_SA_KEY }}
               project_id: ${{ secrets.GKE_PROJECT }}
-          - neme: Get the GKE credentials so we can deploy to the cluster
+          - name: Get the GKE credentials so we can deploy to the cluster
             uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
             with:
               cluster_name: ${{ env.GKE_CLUSTER }}
