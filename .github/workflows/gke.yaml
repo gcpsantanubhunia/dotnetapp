@@ -3,7 +3,7 @@ name: GKE deploy .NET Core API
 on:
   push:
     branches:
-      - main
+      - zyx
 env:
   PROJECT_ID: ${{ secrets.GCE_PROJECT }}
   GKE_CLUSTER: dotnetapp-cluster    # Add your cluster name here.
