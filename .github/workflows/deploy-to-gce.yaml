@@ -10,7 +10,7 @@
       PROJECT_ID: ${{ secrets.GKE_PROJECT }}
       GKE_CLUSTER: dotnetapp-cluster    # Add your cluster name here.
       GKE_ZONE: us-central1-c   # Add your cluster zone here.
-      DEPLOYMENT_NAME: dotnetapp-gke # Add your deployment name here.
+      DEPLOYMENT_NAME: dotnetappgke # Add your deployment name here.
 
     jobs:
       build-and-deploy:
