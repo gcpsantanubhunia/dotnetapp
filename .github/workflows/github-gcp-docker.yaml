@@ -3,7 +3,7 @@ name: Build and Push Docker Image to GCR
 on:
   push:
     branches:
-      - main
+      - xyz
 env:
   IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v25
 jobs:

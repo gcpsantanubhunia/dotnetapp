@@ -1,0 +1,52 @@
+name: Build Push to GCR and Deploy to GKE
+
+on:
+  push:
+    branches:
+      - main
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GKE_CLUSTER: dotnetapp-cluster    # Add your cluster name here.
+  GKE_ZONE: us-central1-c           # Add your cluster zone here.
+  DEPLOYMENT_NAME: gke-dotnetapp    # Add your deployment name here.
+  IMAGE: gcr.io/${{ secrets.GCP_PROJECT_ID }}/dotnetapp:v6
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Get GKE Credentials
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: dotnetapp-cluster
+        location: us-central1-c
+        project_id: ${{ env.PROJECT_ID }}
+
+    - name: Configure Docker to use gcloud credentials
+      run: gcloud auth configure-docker
+
+    - name: Build Docker image
+      run: docker build -t $IMAGE .
+
+    - name: Push Docker image to GCR
+      run: docker push $IMAGE
+
+    - name: Update image tag in deployment YAML 
+      run: |    
+        yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE }}"' -i deployment.yaml
+
+    - name: Deploy to GKE
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
