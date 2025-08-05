@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+env:
+  IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v2
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -20,7 +22,13 @@ jobs:
         run: gcloud auth configure-docker
 
       - name: Build Docker image
-        run: docker build -t gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }} .
+        run: docker build -t $IMAGE .
 
       - name: Push Docker image to GCR
-        run: docker push gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }}
+        run: docker push $IMAGE
+
+      # - name: Build Docker image
+      #   run: docker build -t gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }} .
+
+      # - name: Push Docker image to GCR
+      #   run: docker push gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }}
