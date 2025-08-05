@@ -36,7 +36,7 @@ jobs:
       - name: Update image tag in deployment YAML 
         #run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
         run: |
-          sed -i 's/imagepath/$IMAGE/' path/to/your/file.yaml
+          sed -i 's/imagepath/$IMAGE/' deployment.yaml 
 
         #run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
       
