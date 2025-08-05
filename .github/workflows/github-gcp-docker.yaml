@@ -34,13 +34,9 @@ jobs:
       #   run: docker push gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }}
 
       - name: Update image tag in deployment YAML 
-        #run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
-        #sed -i "s/imagepath/${{ env.IMAGE }}/g" deployment.yaml 
         run: |    
-          yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE }}"' -i deployment.yaml
+          yq e '.spec.template.spec.containers[0].image = "$IMAGE"' -i deployment.yaml
 
-        #run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
-      
       - name: Show File
         run: |
           cat deployment.yaml 
