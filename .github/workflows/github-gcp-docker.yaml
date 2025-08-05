@@ -23,6 +23,10 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCE_SA_KEY }}
 
+      - name: Configure Docker
+        run: |
+          gcloud --quiet auth configure-docker
+          
       - name: Build
         run: |
           docker build \
