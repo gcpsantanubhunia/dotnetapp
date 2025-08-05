@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v20
+  IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v25
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
         #run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
         #sed -i "s/imagepath/${{ env.IMAGE }}/g" deployment.yaml 
         run: |    
-          yq e '.spec.template.spec.containers[0].image = "gcr.io/gcp-terraform-dotnet/dotnetapp:v20"' -i deployment.yaml
+          yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE }}"' -i deployment.yaml
 
         #run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
       
