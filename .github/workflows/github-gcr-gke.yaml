@@ -3,7 +3,7 @@ name: Build Push to GCR and Deploy to GKE
 on:
   push:
     branches:
-      - main
+      - xyz
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GKE_CLUSTER: dotnetapp-cluster    # Add your cluster name here.

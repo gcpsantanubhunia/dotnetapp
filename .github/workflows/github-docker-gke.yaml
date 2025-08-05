@@ -3,13 +3,13 @@ name: Build Push to Docker Hub and Deploy to GKE
 on:
   push:
     branches:
-      - zyx
+      - main
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GKE_CLUSTER: dotnetapp-cluster    # Add your cluster name here.
   GKE_ZONE: us-central1-c           # Add your cluster zone here.
   DEPLOYMENT_NAME: gke-dotnetapp    # Add your deployment name here.
-  IMAGE: gcpsantanubhunia/dotnetapp:latest
+  IMAGE: gcpsantanubhunia/dotnetapp:v7
 
 jobs:
   setup-build-publish-deploy:
@@ -29,8 +29,8 @@ jobs:
     - name: Get GKE Credentials
       uses: google-github-actions/get-gke-credentials@v2
       with:
-        cluster_name: dotnetapp-cluster
-        location: us-central1-c
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
         project_id: ${{ env.PROJECT_ID }}
 
     - name: Log in to Docker Hub
