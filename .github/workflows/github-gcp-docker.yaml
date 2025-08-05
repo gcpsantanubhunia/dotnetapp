@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v2
+  IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v20
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -21,14 +21,22 @@ jobs:
       - name: Configure Docker to use gcloud credentials
         run: gcloud auth configure-docker
 
-      - name: Build Docker image
-        run: docker build -t $IMAGE .
+      # - name: Build Docker image
+      #   run: docker build -t $IMAGE .
 
-      - name: Push Docker image to GCR
-        run: docker push $IMAGE
+      # - name: Push Docker image to GCR
+      #   run: docker push $IMAGE
 
       # - name: Build Docker image
       #   run: docker build -t gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }} .
 
       # - name: Push Docker image to GCR
       #   run: docker push gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:${{ github.sha }}
+
+      - name: Update image tag in deployment YAML 
+        run: yq -i '.spec.template.spec.containers[0].image = $IMAGE' deployment.yaml 
+      
+      - name: Show File
+        run: |
+          cat deployment.yaml 
+
