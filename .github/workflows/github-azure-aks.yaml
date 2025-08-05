@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+env:
 
 jobs:
   build-and-deploy:
@@ -16,27 +17,25 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }} # Or configure OIDC
      
-      - name: Run basic AZ CLI command
-        run: az group list
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ secrets.ACR_NAME }}.azurecr.io/your-app:latest
-      #     file: ./Dockerfile
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.ACR_NAME }}.azurecr.io/your-app:latest
+          file: ./Dockerfile
 
-      # - name: Set AKS context
-      #   uses: azure/aks-set-context@v3
-      #   with:
-      #     resource-group: your-resource-group
-      #     cluster-name: your-aks-cluster-name
+      - name: Set AKS context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: dotnetappRG
+          cluster-name: dotnetappakscluster
 
-      # - name: Deploy to AKS
-      #   uses: azure/k8s-deploy@v4
-      #   with:
-      #     action: deploy
-      #     manifests: |
-      #       manifests/deployment.yaml
-      #       manifests/service.yaml
-      #     images: ${{ secrets.ACR_NAME }}.azurecr.io/your-app:latest
+      - name: Deploy to AKS
+        uses: azure/k8s-deploy@v4
+        with:
+          action: deploy
+          manifests: |
+            manifests/deployment.yaml
+            manifests/service.yaml
+          images: ${{ secrets.ACR_NAME }}.azurecr.io/your-app:latest
