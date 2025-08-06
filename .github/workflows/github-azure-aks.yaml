@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE: ${{ secrets.ACR_NAME }}.azurecr.io/dotnetapp:v2
+  IMAGE: ${{ secrets.ACR_NAME }}.azurecr.io/dotnetapp:v3
 
 jobs:
   build-and-deploy:
