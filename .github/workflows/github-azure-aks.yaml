@@ -19,6 +19,10 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }} # Or configure OIDC
+
+      - name: ACR Login
+        run: |
+          az acr login -n ${{ env.ACR_NAME }}
      
       - name: Build and Tag Docker image
         run: |
