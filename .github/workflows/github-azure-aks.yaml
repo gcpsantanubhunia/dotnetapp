@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE: gcr.io/${{ secrets.GCE_PROJECT }}/dotnetapp:v12
+  IMAGE: gcpsantanubhunia/dotnetapp:v12
 
 jobs:
   build-and-deploy:
