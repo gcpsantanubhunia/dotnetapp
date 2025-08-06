@@ -6,7 +6,7 @@ on:
       - main
 env:
   ACR_NAME: acrdotnetapp # Replace with your ACR name
-  IMAGE_NAME: dotnetapp # Replace with your desired image name
+  IMAGE_NAME: dotnetapp:v1 # Replace with your desired image name
   IMAGE: gcpsantanubhunia/dotnetapp:v12
 
 jobs:
@@ -24,21 +24,21 @@ jobs:
         run: |
           az acr login -n ${{ env.ACR_NAME }}
      
-      - name: Build and Tag Docker image
-        run: |
-          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest .
+      # - name: Build and Tag Docker image
+      #   run: |
+      #     docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }} .
 
-      - name: Push Docker image to ACR
-        run: |
-          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+      # - name: Push Docker image to ACR
+      #   run: |
+      #     docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: acrdotnetapp.azurecr.io/dotnetapp:latest
-      #     file: ./Dockerfile
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}
+          file: ./Dockerfile
 
       # - name: Build and push Docker image
       #   uses: docker/build-push-action@v5
