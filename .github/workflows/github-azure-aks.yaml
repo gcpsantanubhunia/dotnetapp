@@ -5,8 +5,7 @@ on:
     branches:
       - main
 env:
-  ACR_NAME: acrdotnetapp # Replace with your ACR name
-  IMAGE: ${{ env.ACR_NAME }}.azurecr.io/dotnetapp:v2
+  IMAGE: ${{ secrets.ACR_NAME }}.azurecr.io/dotnetapp:v2
 
 jobs:
   build-and-deploy:
@@ -21,7 +20,7 @@ jobs:
 
       - name: ACR Login
         run: |
-          az acr login -n ${{ env.ACR_NAME }}
+          az acr login -n ${{ secrets.ACR_NAME }}
      
       # - name: Build and Tag Docker image
       #   run: |
