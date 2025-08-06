@@ -6,8 +6,7 @@ on:
       - main
 env:
   ACR_NAME: acrdotnetapp # Replace with your ACR name
-  IMAGE_NAME: dotnetapp:v1 # Replace with your desired image name
-  IMAGE: gcpsantanubhunia/dotnetapp:v12
+  IMAGE: ${{ env.ACR_NAME }}.azurecr.io/dotnetapp:v2
 
 jobs:
   build-and-deploy:
@@ -37,7 +36,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}
+          tags: ${{ env.IMAGE }}
           file: ./Dockerfile
 
       # - name: Build and push Docker image
@@ -60,21 +59,21 @@ jobs:
       #     push: true
       #     tags: ${{ env.IMAGE }}
 
-      # - name: Update image tag in deployment YAML 
-      #   run: |    
-      #     yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE }}"' -i deployment.yaml
+      - name: Update image tag in deployment YAML 
+        run: |    
+          yq e '.spec.template.spec.containers[0].image = "${{ env.IMAGE }}"' -i deployment.yaml
 
-      # - name: Set AKS context
-      #   uses: azure/aks-set-context@v3
-      #   with:
-      #     resource-group: dotnetappRG
-      #     cluster-name: dotnetappakscluster
+      - name: Set AKS context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: dotnetappRG
+          cluster-name: dotnetappakscluster
 
-      # - name: Deploy to AKS
-      #   uses: azure/k8s-deploy@v4
-      #   with:
-      #     action: deploy
-      #     manifests: |
-      #       deployment.yaml
-      #       service.yaml
-      #     images: ${{ env.IMAGE }}
+      - name: Deploy to AKS
+        uses: azure/k8s-deploy@v4
+        with:
+          action: deploy
+          manifests: |
+            deployment.yaml
+            service.yaml
+          images: ${{ env.IMAGE }}
